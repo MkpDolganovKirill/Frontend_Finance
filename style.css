@@ -1,0 +1,82 @@
+:root {
+  --webkit-container-gradient: -webkit-linear-gradient(0deg, #11053b,#1e0b63,#11053b);
+  --container-gradient: linear-gradient(0deg, #11053b,#1e0b63,#11053b);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 700px;
+  padding: 20px;
+  background: var(--webkit-container-gradient);
+  background: var(--container-gradient);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px
+}
+
+.title {
+  color: white;
+}
+
+.fillExtense {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.inputDescription {
+  color: white;
+}
+
+.common-containers {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.companyContainer {
+  width: 400px;
+  height: 55px;
+  box-sizing: border-box;
+}
+
+.moneyContainer {
+  width: 200px;
+  height: 55px;
+  box-sizing: border-box;
+}
+
+.companyInput {
+  width: 90%;
+  height: 30px;
+  border-radius: 5px;
+  border: 0;
+}
+
+.moneyInput {
+  width: 90%;
+  height: 30px;
+  border-radius: 5px;
+  border: 0;
+}
+
+.createButton {
+  width: 100%;
+  height: 32px;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 700;
+  background: #e4deff;
+  transition: .5s;
+}
+
+.createButton:hover {
+  background: #fff;
+  cursor: pointer;
+}
