@@ -14,7 +14,6 @@ window.onload = async () => {
     });
   };
 
-  saveToSessionStorage();
   render();
 };
 
