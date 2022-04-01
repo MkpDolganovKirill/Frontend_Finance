@@ -1,5 +1,6 @@
 let allExpenses = [];
 let shopValue = '';
+let moneyInput = null;
 let moneyValue = 0;
 
 window.onload = async () => {
@@ -17,6 +18,56 @@ window.onload = async () => {
   render();
 };
 
+
+const onClickButton = async () => {
+  if (shopValue && moneyInput) {
+    const newDate = new Date();
+    allExpenses.push({
+      company: shopValue,
+      date: newDate,
+      money: moneyInput,
+      isEdit: false
+    });
+
+    await fetch('http://localhost:8000/createNewExpense', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        company: shopValue,
+        date: newDate,
+        money: moneyInput
+      })
+    });
+
+    const respon = await fetch('http://localhost:8000/allExpenses', {
+      method: 'GET'
+    })
+
+    const result = await respon.json();
+    allExpenses = result.data;
+    console.log(allExpenses);
+    if (allExpenses) {
+      allExpenses = result.data;
+      allExpenses.forEach(element => {
+        element.isEdit = false;
+      });
+    };
+  } else {
+    alert("You can't add empty task!");
+  };
+
+  valueInput = '';
+  moneyInput = null;
+  const inputCompany = document.getElementById('shopInput');
+  const inputMoney = document.getElementById('moneyInput');
+  inputCompany.value = '';
+  inputMoney.value = '';
+  render();
+};
+
 const render = () => {
   saveToSessionStorage();
   const content = document.getElementById('content-page');
@@ -30,12 +81,9 @@ const render = () => {
     const element = document.createElement('div');
     element.id = `expense=${index}`;
     element.className = 'element';
-    
-    const numberEl = document.createElement('p');
-    numberEl.innerText = `${index + 1}.`;
 
     const company = document.createElement('p');
-    company.innerText = item.company;
+    company.innerText = `${index + 1}. ` + item.company;
     company.className = item.isEdit ? 'hidden' : 'shopName';
     company.id = `company=${index}`;
 
@@ -80,7 +128,6 @@ const render = () => {
     imageForDelete.src = 'icons/delete.svg';
     imageForDelete.className = item.isEdit ? 'hidden' : 'images';
 
-    element.appendChild(numberEl);
     element.appendChild(company);
     element.appendChild(inputShopEl);
     element.appendChild(date);
@@ -105,7 +152,7 @@ const updateShopValue = () => {
 };
 
 const updateMoneyValue = () => {
-  moneyValue = document.getElementById('moneyInput').value;
+  moneyInput = document.getElementById('moneyInput').value;
 };
 
 const convertDateToText = (element) => {
