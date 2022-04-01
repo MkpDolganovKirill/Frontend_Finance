@@ -1,6 +1,6 @@
 let allExpenses = [];
 let shopValue = '';
-let moneyInput = undefined;
+let moneyInput = null;
 let moneyValue = 0;
 
 window.onload = async () => {
@@ -46,7 +46,7 @@ const onClickButton = async () => {
       method: 'GET'
     })
 
-    let result = await respon.json();
+    const result = await respon.json();
     allExpenses = result.data;
     console.log(allExpenses);
     if (allExpenses) {
@@ -60,7 +60,7 @@ const onClickButton = async () => {
   };
 
   valueInput = '';
-  moneyInput = undefined;
+  moneyInput = null;
   const inputCompany = document.getElementById('shopInput');
   const inputMoney = document.getElementById('moneyInput');
   inputCompany.value = '';
