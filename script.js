@@ -128,6 +128,10 @@ const render = () => {
     imageForDelete.src = 'icons/delete.svg';
     imageForDelete.className = item.isEdit ? 'hidden' : 'images';
 
+    imageForDelete.onclick = () => {
+      deleteElement(index);
+    };
+
     element.appendChild(company);
     element.appendChild(inputShopEl);
     element.appendChild(date);
@@ -158,6 +162,14 @@ const updateMoneyValue = () => {
 const convertDateToText = (element) => {
   const dateText = element.date.slice(0, 10).split('-').reverse().join('.');
   return dateText;
+};
+
+const deleteElement = async (index) => {
+  await fetch(`http://localhost:8000/deleteExistsExpens?id=${allExpenses[index]._id}`, {
+    method: 'DELETE'
+  });
+  allExpenses.splice(index, 1);
+  render();
 };
 
 const saveToSessionStorage = () => {
