@@ -231,13 +231,16 @@ body {
   }
 
   .dateElem, .numberEl {
+    width: 100%;
     margin: 5px 0;
+    text-align: end;
   }
 
   .imageCase {
+    width: 70%;
     margin-top: 5px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   .inputShopEl {
@@ -251,7 +254,8 @@ body {
   }
 
   .images {
-    width: 30px;
-    height: 30px;
+    margin: 0 2px;
+    width: 40px;
+    height: 40px;
   }
 }
