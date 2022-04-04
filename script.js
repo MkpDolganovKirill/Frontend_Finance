@@ -51,7 +51,7 @@ const onClickButton = async () => {
     allExpenses = result.data;
     if (allExpenses) {
       allExpenses = result.data;
-      allExpenses.forEach((element, index) => {
+      allExpenses.map((element, index) => {
         element.isEdit = allExpensesOld[index].isEdit;
       });
     };
