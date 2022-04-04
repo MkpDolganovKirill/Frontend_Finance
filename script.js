@@ -192,7 +192,6 @@ const deleteElement = async (index) => {
 
 const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) => {
   if (inputShopEl.value && inputDateEl.value && inputMoneyEl.value) {
-    allTasks[index].text = inputEdit.value;
     const resp = await fetch(`http://localhost:8000/editExpense`, {
       method: 'PATCH',
       headers: {
