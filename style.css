@@ -33,7 +33,7 @@ body {
 }
 
 .inputDescription {
-  color: var(--border-color);
+  color: var(--text-color);
 }
 
 .common-containers {

@@ -50,8 +50,7 @@ const onClickButton = async () => {
     allExpensesOld = [...allExpenses];
     allExpenses = result.data;
     if (allExpenses) {
-      allExpenses = result.data;
-      allExpenses.map((element, index) => {
+      allExpenses = allExpenses.map((element, index) => {
         element.isEdit = allExpensesOld[index].isEdit;
       });
     };
