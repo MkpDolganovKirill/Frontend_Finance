@@ -92,14 +92,14 @@ body {
 
 .moneyTotal {
   cursor:default;
-  text-align: center;
-  margin: 0;
+  text-align: end;
+  margin: 0 5px;
 }
 
 .element {
   margin-top: 20px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   box-sizing:border-box;
 }

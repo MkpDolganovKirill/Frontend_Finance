@@ -48,7 +48,6 @@ const onClickButton = async () => {
 
     const result = await respon.json();
     allExpenses = result.data;
-    console.log(allExpenses);
     if (allExpenses) {
       allExpenses = result.data;
       allExpenses.forEach(element => {
@@ -98,9 +97,9 @@ const render = () => {
     date.id = `date=${index}`;
 
     const inputDateEl = document.createElement('input');
-    inputDateEl.value = item.date;
     inputDateEl.className = item.isEdit ? 'inputDateEl' : 'hidden';
     inputDateEl.type = 'date';
+    inputDateEl.value = convertToDate(item);
 
     const money = document.createElement('p');
     money.innerText = item.money + ' р.';
@@ -130,6 +129,18 @@ const render = () => {
 
     imageForDelete.onclick = () => {
       deleteElement(index);
+    };
+
+    imageForEdit.onclick = () => {
+      editingElement(index);
+    };
+
+    imageForCancel.onclick = () => {
+      editingElement(index);
+    };
+
+    imageForComplete.onclick = () => {
+      saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl);
     };
 
     element.appendChild(company);
@@ -164,11 +175,49 @@ const convertDateToText = (element) => {
   return dateText;
 };
 
+const convertToDate = (element) => {
+  const dateText = element.date.slice(0, 10);
+  return dateText;
+};
+
 const deleteElement = async (index) => {
   await fetch(`http://localhost:8000/deleteExistsExpens?id=${allExpenses[index]._id}`, {
     method: 'DELETE'
   });
   allExpenses.splice(index, 1);
+  render();
+};
+
+const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) => {
+  if (inputShopEl.value && inputDateEl.value && inputMoneyEl.value) {
+    // allTasks[index].text = inputEdit.value;
+    const resp = await fetch(`http://localhost:8000/editExpense`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        id: allExpenses[index]._id,
+        company: inputShopEl.value,
+        date: inputDateEl.value,
+        money: inputMoneyEl.value
+      })
+    });
+
+    allExpenses[index].company = inputShopEl.value;
+    allExpenses[index].money = Number(inputMoneyEl.value);
+    allExpenses[index].date = inputDateEl.value;
+
+    allExpenses[index].isEdit = !allExpenses[index].isEdit;
+  } else {
+    deleteElement(index);
+  };
+  render();
+};
+
+const editingElement = (index) => {
+  allExpenses[index].isEdit = !allExpenses[index].isEdit;
   render();
 };
 
