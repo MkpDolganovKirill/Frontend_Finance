@@ -23,7 +23,7 @@ const onClickButton = async () => {
   if (shopValue && moneyInput) {
     const newDate = new Date();
     allExpenses.push({
-      company: shopValue,
+      company: shopValue.trim(),
       date: newDate,
       money: moneyInput,
       isEdit: false
@@ -36,7 +36,7 @@ const onClickButton = async () => {
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        company: shopValue,
+        company: shopValue.trim(),
         date: newDate,
         money: moneyInput
       })
@@ -200,13 +200,13 @@ const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) 
       },
       body: JSON.stringify({
         id: allExpenses[index]._id,
-        company: inputShopEl.value,
+        company: inputShopEl.value.trim(),
         date: inputDateEl.value,
         money: inputMoneyEl.value
       })
     });
 
-    allExpenses[index].company = inputShopEl.value;
+    allExpenses[index].company = inputShopEl.value.trim();
     allExpenses[index].money = Number(inputMoneyEl.value);
     allExpenses[index].date = inputDateEl.value;
 
