@@ -53,8 +53,6 @@ const onClickButton = async () => {
       allExpenses.map((element, index) => {
         element.isEdit = allExpensesOld[index].isEdit;
       });
-
-      console.log(allExpenses);
     };
   } else {
     alert("You can't add empty task!");
@@ -83,8 +81,6 @@ const render = () => {
     element.id = `expense=${index}`;
     element.className = 'element';
 
-    console.log(allExpenses);
-    console.log(item);
     const company = document.createElement('p');
     company.innerText = `${index + 1}. ` + item.company;
     company.className = item.isEdit ? 'hidden' : 'shopName';
