@@ -134,6 +134,37 @@ const render = () => {
     imageForDelete.src = 'icons/delete.svg';
     imageForDelete.className = item.isEdit ? 'hidden' : 'images';
 
+    company.ondblclick = () => {
+      company.className = 'hidden';
+      inputShopEl.className = 'inputShopEl';
+      inputShopEl.onblur = () => {
+        saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
+        company.className = 'shopName';
+        inputShopEl.className = 'hidden';
+      };
+    };
+
+    date.ondblclick = () => {
+      date.className = 'hidden';
+      inputDateEl.className = 'inputDateEl';
+      inputDateEl.onblur = () => {
+        saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
+        date.className = 'dateElem';
+        inputDateEl.className = 'hidden';
+      };
+    };
+
+    money.ondblclick = () => {
+      money.className = 'hidden';
+      inputMoneyEl.className = 'inputMoneyEl';
+      inputMoneyEl.onblur = () => {
+        saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
+        money.className = 'numberEl';
+        inputMoneyEl.className = 'hidden';
+      };
+
+    };
+
     imageForDelete.onclick = () => {
       deleteElement(index);
     };
@@ -147,7 +178,7 @@ const render = () => {
     };
 
     imageForComplete.onclick = () => {
-      saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl);
+      saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 1);
     };
 
     element.appendChild(company);
@@ -199,7 +230,7 @@ const deleteElement = async (index) => {
   render();
 };
 
-const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) => {
+const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl, value) => {
   if (inputShopEl.value.trim() && inputDateEl.value && inputMoneyEl.value) {
     const resp = await fetch(`http://localhost:8000/editExpense`, {
       method: 'PATCH',
@@ -219,7 +250,7 @@ const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) 
     allExpenses[index].money = Number(inputMoneyEl.value);
     allExpenses[index].date = inputDateEl.value;
 
-    allExpenses[index].isEdit = !allExpenses[index].isEdit;
+    if (value) allExpenses[index].isEdit = !allExpenses[index].isEdit;
   } else {
     deleteElement(index);
   };
