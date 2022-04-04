@@ -106,7 +106,7 @@ const render = () => {
     inputDateEl.value = convertToDate(item);
 
     const money = document.createElement('p');
-    money.innerText = item.money + 'р.';
+    money.innerText = `${item.money}р.`;
     money.className = item.isEdit ? 'hidden' : 'numberEl';
     money.id = `money=${index}`;
 
