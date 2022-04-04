@@ -41,24 +41,24 @@ const onClickButton = async () => {
         money: moneyInput
       })
     });
-
+    
     const respon = await fetch('http://localhost:8000/allExpenses', {
       method: 'GET'
     })
 
     const result = await respon.json();
+    allExpensesOld = [...allExpenses];
     allExpenses = result.data;
     if (allExpenses) {
-      allExpenses = result.data;
-      allExpenses.forEach(element => {
-        element.isEdit = false;
+      allExpenses = allExpenses.map((element, index) => {
+        element.isEdit = allExpensesOld[index].isEdit;
       });
     };
   } else {
     alert("You can't add empty task!");
   };
 
-  valueInput = '';
+  shopValue = '';
   moneyInput = null;
   const inputCompany = document.getElementById('shopInput');
   const inputMoney = document.getElementById('moneyInput');
@@ -181,6 +181,8 @@ const convertToDate = (element) => {
 };
 
 const deleteElement = async (index) => {
+  const answer = confirm('Вы уверены, что хотите удалить запись?');
+  if (!answer) return;
   await fetch(`http://localhost:8000/deleteExistsExpens?id=${allExpenses[index]._id}`, {
     method: 'DELETE'
   });

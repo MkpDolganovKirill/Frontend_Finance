@@ -1,18 +1,20 @@
 :root {
-  --webkit-container-gradient: -webkit-linear-gradient(0deg, #11053b,#1e0b63,#11053b);
-  --container-gradient: linear-gradient(0deg, #11053b,#1e0b63,#11053b);
+  --background: #E2F3FF;
+  --button-color: #79CAAB;
+  --button-hover-color: #fff;
+  --text-color: #000;
+  --border-color: #000;
 }
 
 body {
   display: flex;
   justify-content: center;
+  background-color: var(--background);
 }
 
 .container {
   width: 700px;
   padding: 20px;
-  background: var(--webkit-container-gradient);
-  background: var(--container-gradient);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +22,7 @@ body {
 }
 
 .title {
-  color: white;
+  color: var(--text-color);
 }
 
 .fillExtense {
@@ -31,7 +33,7 @@ body {
 }
 
 .inputDescription {
-  color: white;
+  color: var(--text-color);
 }
 
 .common-containers {
@@ -56,14 +58,14 @@ body {
   width: 90%;
   height: 30px;
   border-radius: 5px;
-  border: 0;
+  border: 1px solid var(--border-color);
 }
 
 .moneyInput {
   width: 90%;
   height: 30px;
   border-radius: 5px;
-  border: 0;
+  border: 1px solid var(--border-color);
 }
 
 .createButton {
@@ -71,13 +73,14 @@ body {
   height: 32px;
   border: 0;
   border-radius: 5px;
+  border: 1px solid var(--border-color);
   font-weight: 700;
-  background: #e4deff;
+  background: var(--button-color);
   transition: .5s;
 }
 
 .createButton:hover {
-  background: #fff;
+  background: var(--button-hover-color);
   cursor: pointer;
 }
 
@@ -85,7 +88,7 @@ body {
   display: flex;
   flex-direction: column;
   font-size: 1.5rem;
-  color: white;
+  color: var(--text-color);
   width: 100%;
   margin-top: 40px;
 }
@@ -115,13 +118,14 @@ body {
   padding: 5px;
   margin: 0 10px;
   border-radius: 5px;
-  background: white;
+  background: var(--button-color);
   transition: .3s;
+  border: 1px solid var(--border-color);
 }
 
 .images:hover {
   cursor: pointer;
-  background: #e4deff;
+  background: var(--button-hover-color);
 }
 
 .hidden {
