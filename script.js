@@ -20,7 +20,7 @@ window.onload = async () => {
 
 
 const onClickButton = async () => {
-  if (shopValue && moneyInput) {
+  if (shopValue.trim() && moneyInput) {
     const newDate = new Date();
     allExpenses.push({
       company: shopValue.trim(),
@@ -46,6 +46,13 @@ const onClickButton = async () => {
       method: 'GET'
     })
 
+    shopValue = '';
+    moneyInput = null;
+    const inputCompany = document.getElementById('shopInput');
+    const inputMoney = document.getElementById('moneyInput');
+    inputCompany.value = '';
+    inputMoney.value = '';
+
     const result = await respon.json();
     allExpensesOld = [...allExpenses];
     allExpenses = result.data;
@@ -55,15 +62,9 @@ const onClickButton = async () => {
       });
     };
   } else {
-    alert("You can't add empty task!");
+    alert("Вы не можете добавить запись с пустыми значениями!");
   };
 
-  shopValue = '';
-  moneyInput = null;
-  const inputCompany = document.getElementById('shopInput');
-  const inputMoney = document.getElementById('moneyInput');
-  inputCompany.value = '';
-  inputMoney.value = '';
   render();
 };
 
@@ -105,7 +106,7 @@ const render = () => {
     inputDateEl.value = convertToDate(item);
 
     const money = document.createElement('p');
-    money.innerText = item.money + ' р.';
+    money.innerText = `${item.money}р.`;
     money.className = item.isEdit ? 'hidden' : 'numberEl';
     money.id = `money=${index}`;
 
@@ -199,7 +200,7 @@ const deleteElement = async (index) => {
 };
 
 const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) => {
-  if (inputShopEl.value && inputDateEl.value && inputMoneyEl.value) {
+  if (inputShopEl.value.trim() && inputDateEl.value && inputMoneyEl.value) {
     const resp = await fetch(`http://localhost:8000/editExpense`, {
       method: 'PATCH',
       headers: {

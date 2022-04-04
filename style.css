@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --background: #E2F3FF;
   --button-color: #79CAAB;
@@ -98,13 +102,13 @@ body {
 .moneyTotal {
   cursor:default;
   text-align: end;
-  margin: 0 5px;
 }
 
 .element {
+  width: 100%;
   margin-top: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   box-sizing:border-box;
   padding: 5px 0;
@@ -112,15 +116,28 @@ body {
 
 .numberEl, .shopName, .dateElem {
   cursor: default;
-  margin: 0 20px;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.shopName {
+  width: 40%;
+}
+
+.numberEl {
+  width: 35%;
+  margin: 0 2px;
+}
+
+.dateElem {
+  width: 35%;
 }
 
 .images {
-  width: 30px;
-  height: 30px;
+  width: 50px;
   padding: 5px;
-  margin: 0 10px;
   border-radius: 5px;
+  justify-content: space-around;
   background: var(--button-color);
   transition: .3s;
   border: 1px solid var(--border-color);
@@ -139,6 +156,16 @@ body {
 .imageCase {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.imageCase {
+  width: 30%;
+}
+
+.rightContainerCase {
+  text-align: center;
+  width: 60%;
 }
 
 .inputShopEl, .inputDateEl, .inputMoneyEl {
@@ -147,19 +174,19 @@ body {
   border-radius: 5px;
   padding: 5px;
   font-size: 1rem;
-  margin: 0 5px;
+  margin: 0 5px 0 0;
 }
 
 .inputShopEl {
-  width: 250px;
+  width: 40%;
 }
 
 .inputDateEl {
-  width: 130px;
+  width: 35%;
 }
 
 .inputMoneyEl {
-  width: 150px;
+  width: 32%;
 }
 
 @media (min-device-width: 280px) and (max-device-width: 720px) {
