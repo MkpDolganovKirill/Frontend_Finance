@@ -137,30 +137,42 @@ const render = () => {
     company.ondblclick = () => {
       company.className = 'hidden';
       inputShopEl.className = 'inputShopEl';
-      inputShopEl.onblur = () => {
+      imageForEdit.className = 'hidden';
+      imageForDelete.className = 'hidden';
+      inputShopEl.onchange = () => {
         saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
         company.className = 'shopName';
         inputShopEl.className = 'hidden';
+        imageForEdit.className = 'images';
+        imageForDelete.className = 'images';
       };
     };
 
     date.ondblclick = () => {
       date.className = 'hidden';
       inputDateEl.className = 'inputDateEl';
-      inputDateEl.onblur = () => {
+      imageForEdit.className = 'hidden';
+      imageForDelete.className = 'hidden';
+      inputDateEl.onchange = () => {
         saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
         date.className = 'dateElem';
         inputDateEl.className = 'hidden';
+        imageForEdit.className = 'images';
+        imageForDelete.className = 'images';
       };
     };
 
     money.ondblclick = () => {
       money.className = 'hidden';
       inputMoneyEl.className = 'inputMoneyEl';
-      inputMoneyEl.onblur = () => {
+      imageForEdit.className = 'hidden';
+      imageForDelete.className = 'hidden';
+      inputMoneyEl.onchange = () => {
         saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
         money.className = 'numberEl';
         inputMoneyEl.className = 'hidden';
+        imageForEdit.className = 'images';
+        imageForDelete.className = 'images';
       };
 
     };
