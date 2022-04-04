@@ -4,6 +4,7 @@
   --button-hover-color: #fff;
   --text-color: #000;
   --border-color: #000;
+  --border-element: #cecece;
 }
 
 body {
@@ -23,6 +24,7 @@ body {
 
 .title {
   color: var(--text-color);
+  text-align: center;
 }
 
 .fillExtense {
@@ -105,6 +107,7 @@ body {
   justify-content: space-between;
   align-items: center;
   box-sizing:border-box;
+  padding: 5px 0;
 }
 
 .numberEl, .shopName, .dateElem {
@@ -132,12 +135,19 @@ body {
   display: none;
 }
 
+.rightContainerCase,
+.imageCase {
+  display: flex;
+  align-items: center;
+}
+
 .inputShopEl, .inputDateEl, .inputMoneyEl {
   height: 30px;
   border: 0;
   border-radius: 5px;
   padding: 5px;
   font-size: 1rem;
+  margin: 0 5px;
 }
 
 .inputShopEl {
@@ -150,4 +160,71 @@ body {
 
 .inputMoneyEl {
   width: 150px;
+}
+
+@media (min-device-width: 280px) and (max-device-width: 720px) {
+  .container, .companyContainer, .moneyContainer, .buttonContainer {
+    width: 100%;
+  }
+
+  .companyInput, .moneyInput {
+    width: 98%;
+  }
+
+  .common-containers {
+    margin: 5px 0;
+  }
+  
+  .container {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .fillExtense {
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .element {
+    width: 100%;
+    flex-direction: row;
+    align-items: flex-start;
+    box-sizing:border-box;
+    border-top: 1px solid var(--border-element);
+  }
+
+  .containerWithExpenses {
+    font-size: 1.5rem;
+  }
+
+  .rightContainerCase {
+    flex-direction: column;
+    align-items: flex-end;
+    width: 40%;
+  }
+
+  .dateElem, .numberEl {
+    margin: 5px 0;
+  }
+
+  .imageCase {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .inputShopEl {
+    width: 60%;
+    margin: 5px 0;
+  }
+
+  .inputDateEl, .inputMoneyEl {
+    width: 90%;
+    margin: 5px 0;
+  }
+
+  .images {
+    width: 30px;
+    height: 30px;
+  }
 }
