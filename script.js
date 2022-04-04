@@ -50,9 +50,11 @@ const onClickButton = async () => {
     allExpensesOld = [...allExpenses];
     allExpenses = result.data;
     if (allExpenses) {
-      allExpenses = allExpenses.map((element, index) => {
+      allExpenses.map((element, index) => {
         element.isEdit = allExpensesOld[index].isEdit;
       });
+
+      console.log(allExpenses);
     };
   } else {
     alert("You can't add empty task!");
@@ -81,6 +83,8 @@ const render = () => {
     element.id = `expense=${index}`;
     element.className = 'element';
 
+    console.log(allExpenses);
+    console.log(item);
     const company = document.createElement('p');
     company.innerText = `${index + 1}. ` + item.company;
     company.className = item.isEdit ? 'hidden' : 'shopName';
@@ -192,7 +196,7 @@ const deleteElement = async (index) => {
 
 const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) => {
   if (inputShopEl.value && inputDateEl.value && inputMoneyEl.value) {
-    // allTasks[index].text = inputEdit.value;
+    allTasks[index].text = inputEdit.value;
     const resp = await fetch(`http://localhost:8000/editExpense`, {
       method: 'PATCH',
       headers: {
