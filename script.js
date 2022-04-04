@@ -91,6 +91,9 @@ const render = () => {
     inputShopEl.className = item.isEdit ? 'inputShopEl' : 'hidden';
     inputShopEl.type = 'text';
 
+    const rightContainerCase = document.createElement('div');
+    rightContainerCase.className = 'rightContainerCase';
+
     const date = document.createElement('p');
     date.innerText = convertDateToText(item);
     date.className = item.isEdit ? 'hidden' : 'dateElem';
@@ -110,6 +113,9 @@ const render = () => {
     inputMoneyEl.value = item.money;
     inputMoneyEl.className = item.isEdit ? 'inputMoneyEl' : 'hidden';
     inputMoneyEl.type = 'number';
+
+    const imageCase = document.createElement('div');
+    imageCase.className = 'imageCase';
 
     const imageForEdit = document.createElement('img');
     imageForEdit.src = 'icons/edit.svg';
@@ -145,14 +151,16 @@ const render = () => {
 
     element.appendChild(company);
     element.appendChild(inputShopEl);
-    element.appendChild(date);
-    element.appendChild(inputDateEl);
-    element.appendChild(money);
-    element.appendChild(inputMoneyEl);
-    element.appendChild(imageForEdit);
-    element.appendChild(imageForComplete);
-    element.appendChild(imageForCancel);
-    element.appendChild(imageForDelete);
+    rightContainerCase.appendChild(date);
+    rightContainerCase.appendChild(inputDateEl);
+    rightContainerCase.appendChild(money);
+    rightContainerCase.appendChild(inputMoneyEl);
+    imageCase.appendChild(imageForEdit);
+    imageCase.appendChild(imageForComplete);
+    imageCase.appendChild(imageForCancel);
+    imageCase.appendChild(imageForDelete);
+    rightContainerCase.appendChild(imageCase);
+    element.appendChild(rightContainerCase);
     content.appendChild(element);
 
     moneyValue += item.money;
