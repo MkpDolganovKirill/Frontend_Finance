@@ -134,6 +134,61 @@ const render = () => {
     imageForDelete.src = 'icons/delete.svg';
     imageForDelete.className = item.isEdit ? 'hidden' : 'images';
 
+    company.ondblclick = () => {
+      company.className = 'hidden';
+      inputShopEl.className = 'inputShopEl';
+      imageForEdit.className = 'hidden';
+      imageForDelete.className = 'hidden';
+      inputShopEl.onchange = () => {
+        // saveCastomValueFromDBInput(index, inputShopEl);
+        const value = inputShopEl.value.trim();
+        if (!value) return deleteElement(index);
+        allExpenses[index].company = value;
+        saveValueForDBInput(index, { ...item, 'company': value });
+        company.className = 'shopName';
+        inputShopEl.className = 'hidden';
+        imageForEdit.className = 'images';
+        imageForDelete.className = 'images';
+        render();
+      };
+    };
+
+    date.ondblclick = () => {
+      date.className = 'hidden';
+      inputDateEl.className = 'inputDateEl';
+      imageForEdit.className = 'hidden';
+      imageForDelete.className = 'hidden';
+      inputDateEl.onchange = () => {
+        const value = inputDateEl.value;
+        if (!value) return deleteElement(index);
+        allExpenses[index].date = value;
+        saveValueForDBInput(index, { ...item, 'date': value });
+        date.className = 'dateElem';
+        inputDateEl.className = 'hidden';
+        imageForEdit.className = 'images';
+        imageForDelete.className = 'images';
+        render();
+      };
+    };
+
+    money.ondblclick = () => {
+      money.className = 'hidden';
+      inputMoneyEl.className = 'inputMoneyEl';
+      imageForEdit.className = 'hidden';
+      imageForDelete.className = 'hidden';
+      inputMoneyEl.onchange = () => {
+        const value = inputMoneyEl.value;
+        if (!value) return deleteElement(index);
+        allExpenses[index].money = Number(value);
+        saveValueForDBInput(index, { ...item, 'money': value });
+        money.className = 'numberEl';
+        inputMoneyEl.className = 'hidden';
+        imageForEdit.className = 'images';
+        imageForDelete.className = 'images';
+        render();
+      };
+    };
+
     imageForDelete.onclick = () => {
       deleteElement(index);
     };
@@ -147,7 +202,7 @@ const render = () => {
     };
 
     imageForComplete.onclick = () => {
-      saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl);
+      saveEditFromInput(index, inputShopEl.value, inputDateEl.value, inputMoneyEl.value);
     };
 
     element.appendChild(company);
@@ -192,15 +247,15 @@ const convertToDate = (element) => {
 const deleteElement = async (index) => {
   const answer = confirm('Вы уверены, что хотите удалить запись?');
   if (!answer) return;
-  await fetch(`http://localhost:8000/deleteExistsExpens?id=${allExpenses[index]._id}`, {
+  await fetch(`http://localhost:8000/deleteExistsExpens?_id=${allExpenses[index]._id}`, {
     method: 'DELETE'
   });
   allExpenses.splice(index, 1);
   render();
 };
 
-const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) => {
-  if (inputShopEl.value.trim() && inputDateEl.value && inputMoneyEl.value) {
+const saveEditFromInput = async (index, inputShopValue, inputDateValue, inputMoneyValue) => {
+  if (inputShopValue.trim() && inputDateValue && inputMoneyValue) {
     const resp = await fetch(`http://localhost:8000/editExpense`, {
       method: 'PATCH',
       headers: {
@@ -208,22 +263,33 @@ const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl) 
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        id: allExpenses[index]._id,
-        company: inputShopEl.value.trim(),
-        date: inputDateEl.value,
-        money: inputMoneyEl.value
+        _id: allExpenses[index]._id,
+        company: inputShopValue.trim(),
+        date: inputDateValue,
+        money: inputMoneyValue
       })
     });
 
-    allExpenses[index].company = inputShopEl.value.trim();
-    allExpenses[index].money = Number(inputMoneyEl.value);
-    allExpenses[index].date = inputDateEl.value;
+    allExpenses[index].company = inputShopValue.trim();
+    allExpenses[index].money = Number(inputMoneyValue);
+    allExpenses[index].date = inputDateValue;
 
     allExpenses[index].isEdit = !allExpenses[index].isEdit;
   } else {
     deleteElement(index);
   };
   render();
+};
+
+const saveValueForDBInput = async (index, object) => {
+  const resp = await fetch(`http://localhost:8000/editExpense`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify(object)
+  });
 };
 
 const editingElement = (index) => {
