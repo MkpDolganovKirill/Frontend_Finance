@@ -140,11 +140,16 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputShopEl.onchange = () => {
-        saveCastomValueFromDBInput(index, inputShopEl);
+        // saveCastomValueFromDBInput(index, inputShopEl);
+        const value = inputShopEl.value.trim();
+        if (!value) return deleteElement(index);
+        allExpenses[index].company = value;
+        saveValueForDBInput(index, { ...item, 'company': value });
         company.className = 'shopName';
         inputShopEl.className = 'hidden';
         imageForEdit.className = 'images';
         imageForDelete.className = 'images';
+        render();
       };
     };
 
@@ -154,11 +159,15 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputDateEl.onchange = () => {
-        saveCastomValueFromDBInput(index, inputDateEl);
+        const value = inputDateEl.value;
+        if (!value) return deleteElement(index);
+        allExpenses[index].date = value;
+        saveValueForDBInput(index, { ...item, 'date': value });
         date.className = 'dateElem';
         inputDateEl.className = 'hidden';
         imageForEdit.className = 'images';
         imageForDelete.className = 'images';
+        render();
       };
     };
 
@@ -168,13 +177,16 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputMoneyEl.onchange = () => {
-        saveCastomValueFromDBInput(index, inputMoneyEl);
+        const value = inputMoneyEl.value;
+        if (!value) return deleteElement(index);
+        allExpenses[index].money = Number(value);
+        saveValueForDBInput(index, { ...item, 'money': value });
         money.className = 'numberEl';
         inputMoneyEl.className = 'hidden';
         imageForEdit.className = 'images';
         imageForDelete.className = 'images';
+        render();
       };
-
     };
 
     imageForDelete.onclick = () => {
@@ -235,7 +247,7 @@ const convertToDate = (element) => {
 const deleteElement = async (index) => {
   const answer = confirm('Вы уверены, что хотите удалить запись?');
   if (!answer) return;
-  await fetch(`http://localhost:8000/deleteExistsExpens?id=${allExpenses[index]._id}`, {
+  await fetch(`http://localhost:8000/deleteExistsExpens?_id=${allExpenses[index]._id}`, {
     method: 'DELETE'
   });
   allExpenses.splice(index, 1);
@@ -251,7 +263,7 @@ const saveEditFromInput = async (index, inputShopValue, inputDateValue, inputMon
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        id: allExpenses[index]._id,
+        _id: allExpenses[index]._id,
         company: inputShopValue.trim(),
         date: inputDateValue,
         money: inputMoneyValue
@@ -269,38 +281,14 @@ const saveEditFromInput = async (index, inputShopValue, inputDateValue, inputMon
   render();
 };
 
-const saveCastomValueFromDBInput = async (index, sendingObject) => {
-  const typeOfObject = sendingObject.type;
-  const valueOfObject = sendingObject.value.trim();
-  if (typeOfObject === 'text' && valueOfObject) {
-    saveValueForDBInput(index, 'company', valueOfObject);
-
-    allExpenses[index].company = valueOfObject;
-  } else if (typeOfObject === 'date' && valueOfObject) {
-    saveValueForDBInput(index, 'date', valueOfObject);
-
-    allExpenses[index].date = valueOfObject;
-  } else if (typeOfObject === 'number' && valueOfObject) {
-    saveValueForDBInput(index, 'money', valueOfObject);
-
-    allExpenses[index].money = Number(valueOfObject);
-  } else {
-    deleteElement(index);
-  };
-  render();
-};
-
-const saveValueForDBInput = async (index, key, value) => {
+const saveValueForDBInput = async (index, object) => {
   const resp = await fetch(`http://localhost:8000/editExpense`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     },
-    body: JSON.stringify({
-      id: allExpenses[index]._id,
-      [key]: value
-    })
+    body: JSON.stringify(object)
   });
 };
 
