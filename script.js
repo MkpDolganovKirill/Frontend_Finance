@@ -140,7 +140,7 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputShopEl.onchange = () => {
-        saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
+        saveCompanyFromDBInput(index, inputShopEl.value);
         company.className = 'shopName';
         inputShopEl.className = 'hidden';
         imageForEdit.className = 'images';
@@ -154,7 +154,7 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputDateEl.onchange = () => {
-        saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
+        saveDateFromDBInput(index, inputDateEl.value);
         date.className = 'dateElem';
         inputDateEl.className = 'hidden';
         imageForEdit.className = 'images';
@@ -168,7 +168,7 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputMoneyEl.onchange = () => {
-        saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 0);
+        saveMoneyFromDBInput(index, inputMoneyEl.value);
         money.className = 'numberEl';
         inputMoneyEl.className = 'hidden';
         imageForEdit.className = 'images';
@@ -190,7 +190,7 @@ const render = () => {
     };
 
     imageForComplete.onclick = () => {
-      saveEditFromInput(index, inputShopEl, inputDateEl, inputMoneyEl, 1);
+      saveEditFromInput(index, inputShopEl.value, inputDateEl.value, inputMoneyEl.value);
     };
 
     element.appendChild(company);
@@ -242,8 +242,8 @@ const deleteElement = async (index) => {
   render();
 };
 
-const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl, value) => {
-  if (inputShopEl.value.trim() && inputDateEl.value && inputMoneyEl.value) {
+const saveEditFromInput = async (index, inputShopValue, inputDateValue, inputMoneyValue) => {
+  if (inputShopValue.trim() && inputDateValue && inputMoneyValue) {
     const resp = await fetch(`http://localhost:8000/editExpense`, {
       method: 'PATCH',
       headers: {
@@ -252,17 +252,80 @@ const saveEditFromInput = async (index, inputShopEl, inputDateEl, inputMoneyEl, 
       },
       body: JSON.stringify({
         id: allExpenses[index]._id,
-        company: inputShopEl.value.trim(),
-        date: inputDateEl.value,
-        money: inputMoneyEl.value
+        company: inputShopValue.trim(),
+        date: inputDateValue,
+        money: inputMoneyValue
       })
     });
 
-    allExpenses[index].company = inputShopEl.value.trim();
-    allExpenses[index].money = Number(inputMoneyEl.value);
-    allExpenses[index].date = inputDateEl.value;
+    allExpenses[index].company = inputShopValue.trim();
+    allExpenses[index].money = Number(inputMoneyValue);
+    allExpenses[index].date = inputDateValue;
 
-    if (value) allExpenses[index].isEdit = !allExpenses[index].isEdit;
+    allExpenses[index].isEdit = !allExpenses[index].isEdit;
+  } else {
+    deleteElement(index);
+  };
+  render();
+};
+
+const saveCompanyFromDBInput = async (index, companyValue) => {
+  if (companyValue.trim()) {
+    const resp = await fetch(`http://localhost:8000/editExpense`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        id: allExpenses[index]._id,
+        company: companyValue.trim()
+      })
+    });
+
+    allExpenses[index].company = companyValue.trim();
+  } else {
+    deleteElement(index);
+  };
+  render();
+};
+
+const saveDateFromDBInput = async (index, dateValue) => {
+  if (dateValue) {
+    const resp = await fetch(`http://localhost:8000/editExpense`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        id: allExpenses[index]._id,
+        date: dateValue
+      })
+    });
+    console.log(dateValue);
+    allExpenses[index].date = dateValue;
+  } else {
+    deleteElement(index);
+  };
+  render();
+};
+
+const saveMoneyFromDBInput = async (index, moneyValue) => {
+  if (moneyValue) {
+    const resp = await fetch(`http://localhost:8000/editExpense`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        id: allExpenses[index]._id,
+        money: moneyValue
+      })
+    });
+
+    allExpenses[index].money = moneyValue;
   } else {
     deleteElement(index);
   };
