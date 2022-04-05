@@ -140,7 +140,7 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputShopEl.onchange = () => {
-        saveCompanyFromDBInput(index, inputShopEl.value);
+        saveCastomValueFromDBInput(index, inputShopEl);
         company.className = 'shopName';
         inputShopEl.className = 'hidden';
         imageForEdit.className = 'images';
@@ -154,7 +154,7 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputDateEl.onchange = () => {
-        saveDateFromDBInput(index, inputDateEl.value);
+        saveCastomValueFromDBInput(index, inputDateEl);
         date.className = 'dateElem';
         inputDateEl.className = 'hidden';
         imageForEdit.className = 'images';
@@ -168,7 +168,7 @@ const render = () => {
       imageForEdit.className = 'hidden';
       imageForDelete.className = 'hidden';
       inputMoneyEl.onchange = () => {
-        saveMoneyFromDBInput(index, inputMoneyEl.value);
+        saveCastomValueFromDBInput(index, inputMoneyEl);
         money.className = 'numberEl';
         inputMoneyEl.className = 'hidden';
         imageForEdit.className = 'images';
@@ -269,68 +269,40 @@ const saveEditFromInput = async (index, inputShopValue, inputDateValue, inputMon
   render();
 };
 
-const saveCompanyFromDBInput = async (index, companyValue) => {
-  if (companyValue.trim()) {
-    const resp = await fetch(`http://localhost:8000/editExpense`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        id: allExpenses[index]._id,
-        company: companyValue.trim()
-      })
-    });
+const saveCastomValueFromDBInput = async (index, sendingObject) => {
+  const typeOfObject = sendingObject.type;
+  const valueOfObject = sendingObject.value.trim();
+  if (typeOfObject === 'text' && valueOfObject) {
+    saveValueForDBInput(index, 'company', valueOfObject);
 
-    allExpenses[index].company = companyValue.trim();
+    allExpenses[index].company = valueOfObject;
+  } else if (typeOfObject === 'date' && valueOfObject) {
+    saveValueForDBInput(index, 'date', valueOfObject);
+
+    allExpenses[index].date = valueOfObject;
+  } else if (typeOfObject === 'number' && valueOfObject) {
+    saveValueForDBInput(index, 'money', valueOfObject);
+
+    allExpenses[index].money = Number(valueOfObject);
   } else {
     deleteElement(index);
-  };
+  }
   render();
 };
 
-const saveDateFromDBInput = async (index, dateValue) => {
-  if (dateValue) {
-    const resp = await fetch(`http://localhost:8000/editExpense`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        id: allExpenses[index]._id,
-        date: dateValue
-      })
-    });
-    console.log(dateValue);
-    allExpenses[index].date = dateValue;
-  } else {
-    deleteElement(index);
-  };
-  render();
-};
-
-const saveMoneyFromDBInput = async (index, moneyValue) => {
-  if (moneyValue) {
-    const resp = await fetch(`http://localhost:8000/editExpense`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({
-        id: allExpenses[index]._id,
-        money: moneyValue
-      })
-    });
-
-    allExpenses[index].money = moneyValue;
-  } else {
-    deleteElement(index);
-  };
-  render();
-};
+const saveValueForDBInput = async (index, key, value) => {
+  const resp = await fetch(`http://localhost:8000/editExpense`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      id: allExpenses[index]._id,
+      [key]: value
+    })
+  });
+}
 
 const editingElement = (index) => {
   allExpenses[index].isEdit = !allExpenses[index].isEdit;
