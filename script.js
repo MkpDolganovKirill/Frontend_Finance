@@ -286,7 +286,7 @@ const saveCastomValueFromDBInput = async (index, sendingObject) => {
     allExpenses[index].money = Number(valueOfObject);
   } else {
     deleteElement(index);
-  }
+  };
   render();
 };
 
@@ -302,7 +302,7 @@ const saveValueForDBInput = async (index, key, value) => {
       [key]: value
     })
   });
-}
+};
 
 const editingElement = (index) => {
   allExpenses[index].isEdit = !allExpenses[index].isEdit;
